@@ -2,10 +2,12 @@
 from conans import ConanFile, CMake
 import os
 
+channel = os.getenv("CONAN_CHANNEL", "testing")
+username = os.getenv("CONAN_USERNAME", "Brunni")
 
 class RapidJSONTestConan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
-    requires = "RapidJSON/1.0.2@SamuelMarks/testing"
+    requires = "RapidJSON/1.1.0@%s/%s" % (username, channel)
     generators = 'cmake'
 
     def build(self):
@@ -19,4 +21,4 @@ class RapidJSONTestConan(ConanFile):
 
     def test(self):
         os.chdir('bin')
-        self.run('.%sfilterkey' % os.sep)
+        self.run('.%ssimplejsontest' % os.sep)
